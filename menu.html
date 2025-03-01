@@ -13,7 +13,7 @@
     <!-- CSS Files
     ================================================== -->
     <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
-    <link rel="stylesheet" href="css/plugins.css" type="text/css">
+    <link rel="stylesheet" href="css/plugins.js" type="text/css"> <!-- plugins.css yerine plugins.js yazılmış, bu bir hata olabilir -->
     <link rel="stylesheet" href="css/style.css" type="text/css">    
     <link rel="stylesheet" href="css/coloring.css" type="text/css">
 
@@ -65,7 +65,6 @@
                         <div class="clearfix"></div>
                     </div>
                     <!-- mainmenu close -->
-
                 </div>
             </div>
         </header>
@@ -204,66 +203,86 @@
                 // Main Dishes
                 const mainDishesResponse = await fetch(`https://cdn.contentful.com/spaces/${spaceId}/entries?access_token=${accessToken}&content_type=menuItem&fields.category=Main Dishes`);
                 const mainDishesData = await mainDishesResponse.json();
+                console.log('Main Dishes Data:', mainDishesData); // Hata ayıklaması için
                 const mainDishesContainer = document.getElementById('main-dishes-menu-container');
                 mainDishesContainer.innerHTML = '<div class="menu-item thead"><div class="c1"></div><div class="c2"></div><div class="c3">Price</div></div>';
-                mainDishesData.items.forEach(item => {
-                    const menuItem = `
-                        <div class="menu-item">
-                            <div class="c1">${item.fields.name}<span>${item.fields.description}</span></div>
-                            <div class="c2"></div>
-                            <div class="c3">${item.fields.price}</div>
-                        </div>
-                    `;
-                    mainDishesContainer.innerHTML += menuItem;
-                });
+                if (mainDishesData.items && mainDishesData.items.length > 0) {
+                    mainDishesData.items.forEach(item => {
+                        const menuItem = `
+                            <div class="menu-item">
+                                <div class="c1">${item.fields.name}<span>${item.fields.description || 'No description'}</span></div>
+                                <div class="c2"></div>
+                                <div class="c3">${item.fields.price || 'No price'}</div>
+                            </div>
+                        `;
+                        mainDishesContainer.innerHTML += menuItem;
+                    });
+                } else {
+                    mainDishesContainer.innerHTML += '<p>No items found.</p>';
+                }
 
                 // Snacks
                 const snacksResponse = await fetch(`https://cdn.contentful.com/spaces/${spaceId}/entries?access_token=${accessToken}&content_type=menuItem&fields.category=Snacks`);
                 const snacksData = await snacksResponse.json();
+                console.log('Snacks Data:', snacksData); // Hata ayıklaması için
                 const snacksContainer = document.getElementById('snacks-menu-container');
                 snacksContainer.innerHTML = '<div class="menu-item thead"><div class="c1"></div><div class="c2"></div><div class="c3">Price</div></div>';
-                snacksData.items.forEach(item => {
-                    const menuItem = `
-                        <div class="menu-item">
-                            <div class="c1">${item.fields.name}<span>${item.fields.description}</span></div>
-                            <div class="c2"></div>
-                            <div class="c3">${item.fields.price}</div>
-                        </div>
-                    `;
-                    snacksContainer.innerHTML += menuItem;
-                });
+                if (snacksData.items && snacksData.items.length > 0) {
+                    snacksData.items.forEach(item => {
+                        const menuItem = `
+                            <div class="menu-item">
+                                <div class="c1">${item.fields.name}<span>${item.fields.description || 'No description'}</span></div>
+                                <div class="c2"></div>
+                                <div class="c3">${item.fields.price || 'No price'}</div>
+                            </div>
+                        `;
+                        snacksContainer.innerHTML += menuItem;
+                    });
+                } else {
+                    snacksContainer.innerHTML += '<p>No items found.</p>';
+                }
 
                 // Coffee
                 const coffeeResponse = await fetch(`https://cdn.contentful.com/spaces/${spaceId}/entries?access_token=${accessToken}&content_type=menuItem&fields.category=Coffee`);
                 const coffeeData = await coffeeResponse.json();
+                console.log('Coffee Data:', coffeeData); // Hata ayıklaması için
                 const coffeeContainer = document.getElementById('coffee-menu-container');
                 coffeeContainer.innerHTML = '<div class="menu-item thead"><div class="c1"></div><div class="c2">Medium<span>16 oz</span></div><div class="c3">Large<span>20 oz</span></div></div>';
-                coffeeData.items.forEach(item => {
-                    const menuItem = `
-                        <div class="menu-item">
-                            <div class="c1">${item.fields.name}<span>${item.fields.description}</span></div>
-                            <div class="c2">${item.fields.price_medium || ''}</div>
-                            <div class="c3">${item.fields.price_large || ''}</div>
-                        </div>
-                    `;
-                    coffeeContainer.innerHTML += menuItem;
-                });
+                if (coffeeData.items && coffeeData.items.length > 0) {
+                    coffeeData.items.forEach(item => {
+                        const menuItem = `
+                            <div class="menu-item">
+                                <div class="c1">${item.fields.name}<span>${item.fields.description || 'No description'}</span></div>
+                                <div class="c2">${item.fields.price_medium || ''}</div>
+                                <div class="c3">${item.fields.price_large || ''}</div>
+                            </div>
+                        `;
+                        coffeeContainer.innerHTML += menuItem;
+                    });
+                } else {
+                    coffeeContainer.innerHTML += '<p>No items found.</p>';
+                }
 
                 // Non Coffee
                 const nonCoffeeResponse = await fetch(`https://cdn.contentful.com/spaces/${spaceId}/entries?access_token=${accessToken}&content_type=menuItem&fields.category=Non Coffee`);
                 const nonCoffeeData = await nonCoffeeResponse.json();
+                console.log('Non Coffee Data:', nonCoffeeData); // Hata ayıklaması için
                 const nonCoffeeContainer = document.getElementById('non-coffee-menu-container');
                 nonCoffeeContainer.innerHTML = '<div class="menu-item thead"><div class="c1"></div><div class="c2">Medium<span>16 oz</span></div><div class="c3">Large<span>20 oz</span></div></div>';
-                nonCoffeeData.items.forEach(item => {
-                    const menuItem = `
-                        <div class="menu-item">
-                            <div class="c1">${item.fields.name}<span>${item.fields.description}</span></div>
-                            <div class="c2">${item.fields.price_medium || ''}</div>
-                            <div class="c3">${item.fields.price_large || ''}</div>
-                        </div>
-                    `;
-                    nonCoffeeContainer.innerHTML += menuItem;
-                });
+                if (nonCoffeeData.items && nonCoffeeData.items.length > 0) {
+                    nonCoffeeData.items.forEach(item => {
+                        const menuItem = `
+                            <div class="menu-item">
+                                <div class="c1">${item.fields.name}<span>${item.fields.description || 'No description'}</span></div>
+                                <div class="c2">${item.fields.price_medium || 'No price'}</div>
+                                <div class="c3">${item.fields.price_large || 'No price'}</div>
+                            </div>
+                        `;
+                        nonCoffeeContainer.innerHTML += menuItem;
+                    });
+                } else {
+                    nonCoffeeContainer.innerHTML += '<p>No items found.</p>';
+                }
             } catch (error) {
                 console.error('Error loading menu:', error);
             }
@@ -275,6 +294,7 @@
     <script src="js/designesia.js"></script>
 
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91992f07eb5b135d',t:'MTc0MDgzNzY1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91998a1bae3cad89',t:'MTc0MDg0MTM4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 
 </html>
